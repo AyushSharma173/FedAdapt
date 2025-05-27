@@ -1,0 +1,101 @@
+// GRPC definition for the communication between the aggregator and the executors.
+// After modifying this file, run
+// $ python -m grpc_tools.protoc -I../communication/ --python_out=.. --grpc_python_out=.. job_api.proto
+syntax = "proto3";
+
+package fedscale;
+
+service JobService {
+    rpc CLIENT_REGISTER (RegisterRequest) returns (ServerResponse) {}
+    rpc CLIENT_PING (PingRequest) returns (ServerResponse) {}
+    rpc CLIENT_EXECUTE_COMPLETION (CompleteRequest) returns (ServerResponse) {}
+
+
+    rpc StreamUpdateModel        (PingRequest)        returns (stream ModelChunk) {}
+    rpc UploadModel        (stream ModelChunk)   returns (Ack) {}
+
+    // Dashboard endpoints:
+    rpc GetAggregatorStatus (StatusRequest) returns (StatusReply) {}
+    rpc GetRoundMetrics     (MetricsRequest) returns (MetricsReply) {}
+
+}
+
+
+
+message ServerResponse {
+    string event = 1;
+    bytes meta = 2;
+    bytes data = 3;
+}
+
+message RegisterRequest {
+    string client_id = 1;
+    string executor_id = 2;
+    bytes executor_info = 3;
+}
+
+message PingRequest {
+    string client_id = 1;
+    string executor_id = 2;
+}
+
+message CompleteRequest {
+    string client_id = 1;
+    string executor_id = 2;
+    string event = 3;
+    bool status = 4;
+    string msg = 5;
+    string meta_result = 6;
+    bytes data_result = 7;
+}
+
+
+
+
+message StatusRequest {
+    string experiment_id = 1;
+}
+message StatusReply {
+    int32  current_round        = 1;
+    bool   is_running           = 2;
+    double global_virtual_clock  = 3;
+    repeated string sampled_clients = 4;  // e.g. [ "1", "4", "7", … ]
+}
+
+message MetricsRequest {
+    int32 round = 1;
+}
+message ClientMetrics {
+    int32  client_id = 1;
+    double loss      = 2;
+    double utility   = 3;
+    double duration  = 4;
+    repeated double loss_curve = 5;
+    double client_eval_local_acc = 6;  // Accuracy of client's previous local model on its data
+    double client_eval_global_acc = 7; // Accuracy of current global model on client's data
+    double client_alpha = 8;           // Alpha value used by the client for mixing
+}
+message MetricsReply {
+    int32        round         = 1;
+    double       test_loss     = 2;
+    double       test_accuracy1 = 3;
+    double       test_accuracy5 = 4;
+    repeated ClientMetrics clients = 5;
+}
+
+
+ message ModelChunk {
+    bytes  payload = 1;    // a slice of the (compressed) model
+    int32  seq_num = 2;    // chunk index (optional)
+ }
+
+// A simple empty ack for streaming uploads
+message Ack {}
+
+
+
+//python3 -m grpc_tools.protoc \
+//  -I fedscale/cloud/channels \
+//  --python_out=fedscale/cloud/channels \
+//  --grpc_python_out=fedscale/cloud/channels \
+//  fedscale/cloud/channels/job_api.proto

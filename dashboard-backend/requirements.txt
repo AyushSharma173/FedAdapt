@@ -1,0 +1,5 @@
+fastapi>=0.68.0
+uvicorn>=0.15.0
+pydantic>=1.8.0
+grpcio>=1.43.0
+fedscale>=0.1.0

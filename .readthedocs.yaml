@@ -1,0 +1,16 @@
+version: 2
+
+build:
+  os: "ubuntu-20.04"
+  tools:
+    python: "mambaforge-4.10"
+  jobs:
+    pre_build:
+      - "pip install -e ."
+  # --- ADD THIS SECTION ---
+  sphinx:
+    configuration: docs/source/conf.py
+  # ------------------------
+
+conda:
+  environment: environment.yml

@@ -1,0 +1,10 @@
+site_name: FedAdapt Documentation
+
+theme:
+  name: material
+
+nav:
+  - Home: index.md
+  - Dashboard: dashboard.md
+  - Personalization: self_adaptive.md
+  - Co-Optimization: cooptimization.md
