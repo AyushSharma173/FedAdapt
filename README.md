@@ -1,7 +1,7 @@
 # FedAdapt
 
-[![FedAdapt Docs](https://img.shields.io/badge/docs-FedAdapt-blue)](https://youruser.github.io/FedAdapt)  
-[![Research Paper](https://img.shields.io/badge/paper-PDF-orange)](documentation/docs/assets/paper.pdf)  
+[![📖 Documentation](https://img.shields.io/badge/Documentation-FedAdapt-brightgreen?style=for-the-badge&logo=read-the-docs)](https://youruser.github.io/FedAdapt)
+[![📄 Research Paper](https://img.shields.io/badge/Research%20Paper-PDF-orange?style=for-the-badge&logo=arxiv)](documentation/docs/assets/paper.pdf)
 
 **FedAdapt** builds on [FedScale](https://fedscale.readthedocs.io/en/latest/) to deliver three production-ready extensions for Federated Learning:
 
