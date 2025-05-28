@@ -1,0 +1,664 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../self_adaptive/">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Co-Optimization - FedAdapt Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.342714a4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#heterogeneity-aware-co-optimization" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="FedAdapt Documentation" class="md-header__button md-logo" aria-label="FedAdapt Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            FedAdapt Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Co-Optimization
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="FedAdapt Documentation" class="md-nav__button md-logo" aria-label="FedAdapt Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    FedAdapt Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dashboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Dashboard
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../self_adaptive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Personalization
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Co-Optimization
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Co-Optimization
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#motivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Motivation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚙️ How It Works
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#visualizing-co-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      📊 Visualizing Co-Optimization
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#defaults-tuning-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔧 Defaults &amp; Tuning Tips
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏗 Architecture
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#motivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Motivation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚙️ How It Works
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#visualizing-co-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      📊 Visualizing Co-Optimization
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#defaults-tuning-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔧 Defaults &amp; Tuning Tips
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏗 Architecture
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<!-- ````markdown -->
+<h1 id="heterogeneity-aware-co-optimization">Heterogeneity-Aware Co-Optimization</h1>
+<blockquote>
+<p>Dynamically tailor each client’s work (local steps &amp; compression) to minimize per-round runtime.</p>
+</blockquote>
+<hr />
+<h2 id="motivation">🎯 Motivation</h2>
+<p>Real-world devices vary wildly in compute speed, network bandwidth, and availability.<br />
+A fixed “one-size-fits-all” choice of local steps or gradient compression can:<br />
+- Slow down overall wall-clock convergence (stragglers)<br />
+- Waste bandwidth on fast clients<br />
+- Under-utilize powerful devices  </p>
+<p><strong>Heterogeneity-Aware Co-Optimization</strong> automatically picks, <em>per client per round</em>, the best:
+- <strong>𝑘</strong> = number of local SGD steps<br />
+- <strong>𝑐</strong> = compression ratio on the model update  </p>
+<p>to minimize<br />
+[
+T_i(k,c) = k \cdot t_{\text{comp},i} \;+\; c \cdot B \cdot t_{\text{comm},i}
+]<br />
+where each client’s compute &amp; comm timings ((t_{\text{comp},i},t_{\text{comm},i})) are profiled in-situ, and (B) is the model-update size.</p>
+<hr />
+<h2 id="how-it-works">⚙️ How It Works</h2>
+<p>Inside the <strong>Aggregator</strong>’s <code>round_completion_handler()</code>:</p>
+<pre><code class="language-python"># profile: per‐client compute &amp; comm times
+profiles = {
+    client: {
+      &quot;t_step&quot;: comp_i,
+      &quot;t_comm&quot;: comm_i / model_bits
+    }
+    for client, (comp_i, comm_i) in profiled_times.items()
+}
+
+# grid search over k ∈ {1, default_steps}, c ∈ {1.0, 0.5, 0.25}
+new_conf = {}
+for client, prof in profiles.items():
+    best = None
+    for k in [1, args.local_steps]:
+      for c in [1.0, 0.5, 0.25]:
+        T = k * prof[&quot;t_step&quot;] + c * model_bits * prof[&quot;t_comm&quot;]
+        if best is None or T &lt; best[0]:
+            best = (T, k, c)
+    new_conf[client] = Namespace(
+      local_steps=best[1],
+      compression=best[2],
+      batch_size=args.batch_size,
+      # …other fields…
+    )
+
+self.client_conf = new_conf
+&lt;!-- ```` --&gt;
+
+Each client then sees its tuned `(k, c)` on the next `CLIENT_TRAIN` event.
+
+---
+
+## 🛠 Configuration
+
+Expose three fields in your CLI/REST and dashboard:
+
+| Flag / Form Field | Description | Default |
+| ----------------- | ----------- | :-----: |
+| `--optimize_for`  | Strategy:   |         |
+
+* **Fastest Training**
+* **Balanced**
+* **Best Accuracy**            | `Balanced` |
+  \| `--compression_limit`| Maximum allowed compression ratio `[0.1–1.0]`  | `1.0`      |
+  \| `--auto_tune`        | Enable/disable automatic per-client tuning     | `True`     |
+
+### Dashboard UI Snippet
+
+&lt;details&gt;
+&lt;summary&gt;&lt;strong&gt;Heterogeneity-Aware Optimization (settings)&lt;/strong&gt;&lt;/summary&gt;
+
+```jsx
+&lt;fieldset&gt;
+  &lt;legend&gt;Heterogeneity-Aware Optimization&lt;/legend&gt;
+
+  &lt;label&gt;
+    Optimize For:
+    &lt;select
+      name=&quot;optimize_for&quot;
+      value={form.optimize_for}
+      onChange={handleChange}
+    &gt;
+      &lt;option&gt;Fastest Training&lt;/option&gt;
+      &lt;option&gt;Balanced&lt;/option&gt;
+      &lt;option&gt;Best Accuracy&lt;/option&gt;
+    &lt;/select&gt;
+  &lt;/label&gt;
+
+  &lt;label&gt;
+    Compression Limit (cₘₐₓ):
+    &lt;input
+      name=&quot;compression_limit&quot;
+      type=&quot;number&quot; step=&quot;0.1&quot; min=&quot;0.1&quot; max=&quot;1.0&quot;
+      value={form.compression_limit}
+      onChange={handleChange}
+    /&gt;
+  &lt;/label&gt;
+
+  &lt;label&gt;
+    Auto Tune:
+    &lt;select
+      name=&quot;auto_tune&quot;
+      value={form.auto_tune.toString()}
+      onChange={e =&gt; setForm(f =&gt; ({ …f, auto_tune: e.target.value === 'true' }))}
+    &gt;
+      &lt;option value=&quot;true&quot;&gt;Enabled&lt;/option&gt;
+      &lt;option value=&quot;false&quot;&gt;Disabled&lt;/option&gt;
+    &lt;/select&gt;
+  &lt;/label&gt;
+&lt;/fieldset&gt;
+</code></pre>
+</details>
+<hr />
+<h2 id="visualizing-co-optimization">📊 Visualizing Co-Optimization</h2>
+<p>On the dashboard you can plot per-client choices each round:</p>
+<ul>
+<li><strong>Local Steps (k)</strong> vs <strong>Round</strong></li>
+<li><strong>Compression Ratio (c)</strong> vs <strong>Round</strong></li>
+<li><strong>Bandwidth Saved</strong> (baseline − actual)</li>
+</ul>
+<p><img alt="Co-Opt Metrics" src="assets/coopt-metrics.png" /></p>
+<blockquote>
+<p><strong>Tip</strong>:</p>
+<ul>
+<li>Lower <code>compression_limit</code> forces more aggressive sparsification.</li>
+<li>Disable <code>auto_tune</code> to use a single global <code>(k,c)</code> fallback.</li>
+</ul>
+</blockquote>
+<hr />
+<h2 id="defaults-tuning-tips">🔧 Defaults &amp; Tuning Tips</h2>
+<ul>
+<li><strong>Balanced</strong>: trades off compute vs. comm.</li>
+<li><strong>Fastest Training</strong>: biases toward more local steps on fast clients.</li>
+<li><strong>Best Accuracy</strong>: biases toward lower compression.</li>
+<li>If you care more about accuracy than speed, pick <strong>Best Accuracy</strong> and set <code>compression_limit</code> near 1.0.</li>
+</ul>
+<hr />
+<h2 id="architecture">🏗 Architecture</h2>
+<pre><code class="language-text">┌──────────────────────┐      gRPC      ┌────────────────────┐
+│  FastAPI / Uvicorn   │◀──────────────▶│  FedScale Aggregator│
+│ (dashboard-backend)  │                │    &amp; Executor      │
+└──────────────────────┘                └────────────────────┘
+         │                                    ▲
+         │ HTTP / SSE                        │ Grid‐search (k,c)
+         ▼                                    │ per‐client
+┌──────────────────────┐                      │
+│  React + Vite        │                      ▼
+│ (dashboard-frontend) │                ┌────────────────────┐
+└──────────────────────┘                │   Co-Optimizer     │
+                                        │ (in Aggregator)    │
+                                        └────────────────────┘
+</code></pre>
+<hr />
+<p><em>Read more in <a href="https://arxiv.org/abs/…">the research paper</a> or see the code in</em>
+<code>fedscale/cloud/aggregation/aggregator.py → Aggregator.round_completion_handler()</code></p>
+<p>````</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+    
+  </body>
+</html>
