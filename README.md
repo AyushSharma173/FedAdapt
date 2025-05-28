@@ -13,8 +13,7 @@
 
 ## 🔗 Quick Links
 
-- **FedScale** tutorial & API docs → https://fedscale.readthedocs.io/en/latest/  
-- **FedAdapt Documentation** → https://youruser.github.io/FedAdapt  
+- **FedAdapt Documentation** → http://docs.fedadapt.com.s3-website.us-east-2.amazonaws.com/
 - **Research Paper (PDF)** → [documentation/docs/assets/paper.pdf](documentation/docs/assets/paper.pdf)  
 
 ---
