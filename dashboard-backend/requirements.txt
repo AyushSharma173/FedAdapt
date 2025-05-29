@@ -150,8 +150,8 @@ soupsieve==2.7
 stack-data==0.6.3
 starlette==0.46.2
 sympy==1.14.0
-# tensorboard==2.16.2
-# tensorboard-data-server==0.7.2
+tensorboard==2.16.2
+tensorboard-data-server==0.7.2
 # tensorflow==2.16.2
 termcolor==3.0.1
 terminado==0.18.1
