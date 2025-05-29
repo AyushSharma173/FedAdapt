@@ -43,7 +43,7 @@ fedscale/tmp*
 fedscale/*.tflite
 fedscale/*.ckpt
 fedscale/cloud/aggregation/cache
-.venv/
+# .venv/
 *.tar.gz
 *.dylib
 Miniconda3-latest-MacOSX-arm64.sh*
