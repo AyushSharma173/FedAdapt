@@ -72,7 +72,7 @@ jupyterlab==4.4.1
 jupyterlab_pygments==0.3.0
 jupyterlab_server==2.27.3
 jupyterlab_widgets==3.0.14
-keras==3.9.2
+# keras==3.9.2
 kiwisolver==1.4.8
 kubernetes==32.0.1
 libclang==18.1.1
@@ -113,7 +113,7 @@ pillow==11.2.1
 platformdirs==4.3.7
 prometheus_client==0.21.1
 prompt_toolkit==3.0.51
-protobuf
+# protobuf
 psutil==7.0.0
 ptyprocess==0.7.0
 pure_eval==0.2.3
@@ -150,9 +150,9 @@ soupsieve==2.7
 stack-data==0.6.3
 starlette==0.46.2
 sympy==1.14.0
-tensorboard==2.16.2
-tensorboard-data-server==0.7.2
-tensorflow==2.16.2
+# tensorboard==2.16.2
+# tensorboard-data-server==0.7.2
+# tensorflow==2.16.2
 termcolor==3.0.1
 terminado==0.18.1
 tinycss2==1.4.0
