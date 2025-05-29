@@ -1,6 +1,7 @@
 absl-py==2.2.2
 annotated-types==0.7.0
 anyio==4.9.0
+appnope==0.1.4
 argon2-cffi==23.1.0
 argon2-cffi-bindings==21.2.0
 arrow==1.3.0
@@ -29,7 +30,7 @@ durationpy==0.9
 executing==2.2.0
 fastapi==0.115.12
 fastjsonschema==2.21.1
--e git+https://github.com/AyushSharma173/FedAdapt.git@1048e93fed844d4116dda8e14ff8fb766fff6ec3#egg=fedscale
+-e git+https://github.com/AyushSharma173/FedAdapt.git@05069095d70656537ff0c76941fe6426c51cd5fb#egg=fedscale
 filelock==3.18.0
 flatbuffers==25.2.10
 fonttools==4.57.0
@@ -60,19 +61,19 @@ json5==0.12.0
 jsonpointer==3.0.0
 jsonschema==4.23.0
 jsonschema-specifications==2025.4.1
-# jupyter==1.1.1
-# jupyter-console==6.6.3
-# jupyter-events==0.12.0
-# jupyter-lsp==2.2.5
-# jupyter_client==8.6.3
-# jupyter_core==5.7.2
-# jupyter_server==2.15.0
-# jupyter_server_terminals==0.5.3
-# jupyterlab==4.4.1
-# jupyterlab_pygments==0.3.0
-# jupyterlab_server==2.27.3
-# jupyterlab_widgets==3.0.14
-# keras==3.9.2
+jupyter==1.1.1
+jupyter-console==6.6.3
+jupyter-events==0.12.0
+jupyter-lsp==2.2.5
+jupyter_client==8.6.3
+jupyter_core==5.7.2
+jupyter_server==2.15.0
+jupyter_server_terminals==0.5.3
+jupyterlab==4.4.1
+jupyterlab_pygments==0.3.0
+jupyterlab_server==2.27.3
+jupyterlab_widgets==3.0.14
+keras==3.9.2
 kiwisolver==1.4.8
 kubernetes==32.0.1
 libclang==18.1.1
@@ -113,7 +114,7 @@ pillow==11.2.1
 platformdirs==4.3.7
 prometheus_client==0.21.1
 prompt_toolkit==3.0.51
-protobuf
+protobuf==5.29.4
 psutil==7.0.0
 ptyprocess==0.7.0
 pure_eval==0.2.3
@@ -153,6 +154,8 @@ sympy==1.14.0
 tensorboard==2.16.2
 tensorboard-data-server==0.7.2
 tensorflow==2.16.2
+tensorflow-macos==2.16.2
+tensorflow-metal==1.2.0
 termcolor==3.0.1
 terminado==0.18.1
 tinycss2==1.4.0
