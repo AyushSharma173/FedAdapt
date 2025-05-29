@@ -113,7 +113,7 @@ pillow==11.2.1
 platformdirs==4.3.7
 prometheus_client==0.21.1
 prompt_toolkit==3.0.51
-# protobuf
+protobuf
 psutil==7.0.0
 ptyprocess==0.7.0
 pure_eval==0.2.3
@@ -152,13 +152,13 @@ starlette==0.46.2
 sympy==1.14.0
 tensorboard==2.16.2
 tensorboard-data-server==0.7.2
-# tensorflow==2.16.2
+tensorflow==2.16.2
 termcolor==3.0.1
 terminado==0.18.1
 tinycss2==1.4.0
 torch==2.7.0
-# torchaudio==2.7.0
-# torchvision==0.22.0
+torchaudio==2.7.0
+torchvision==0.22.0
 tornado==6.4.2
 tqdm==4.67.1
 traitlets==5.14.3
