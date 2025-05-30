@@ -28,7 +28,9 @@ export default function CompletedExperiment() {
 
   useEffect(() => {
     axios
-      .get(`http://18.218.117.22:8000/experiments/${id}/static`)
+      // .get(`http://18.218.117.22:8000/experiments/${id}/static`)
+      // .get(`http://localhost:8000/experiments/${id}/static`)
+      .get(`https://fedadapt.onrender.com/experiments/${id}/static`)
       .then(res => {
         const data = res.data
         // keep the whole payload, not just name

@@ -2,7 +2,7 @@
   "name": "dashboard-frontend",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://18.218.117.22:8000",
+  "proxy": "https://fedadapt.onrender.com",
   "dependencies": {
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",

@@ -670,10 +670,15 @@ export default function MainPage() {
   const start = async e => {
     e.preventDefault()
     try {
+      // const { data: newExp } = await axios.post(
+      //   'http://18.218.117.22:8000/experiments',
+      //   form
+      // )
       const { data: newExp } = await axios.post(
-        'http://18.218.117.22:8000/experiments',
+        'https://fedadapt.onrender.com/experiments',
         form
       )
+
       navigate(`/experiments/${newExp.id}`)
     } catch (err) {
       console.error(err)
