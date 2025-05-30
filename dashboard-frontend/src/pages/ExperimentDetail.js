@@ -26,7 +26,7 @@ export default function ExperimentDetail() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8000/experiments/${id}/static`)
+      .get(`http://18.218.117.22:8000/experiments/${id}/static`)
       .then(r => {
         const data = r.data
         setExpt({ name: data.name })

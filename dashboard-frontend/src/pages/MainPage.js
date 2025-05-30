@@ -615,6 +615,7 @@
 //   )
 // }
 
+
 // src/pages/MainPage.js
 
 import React, { useState } from 'react'
@@ -670,7 +671,7 @@ export default function MainPage() {
     e.preventDefault()
     try {
       const { data: newExp } = await axios.post(
-        'http://localhost:8000/experiments',
+        'http://18.218.117.22:8000/experiments',
         form
       )
       navigate(`/experiments/${newExp.id}`)
@@ -1080,9 +1081,38 @@ export default function MainPage() {
 
           {/* submit */}
           <div style={{ textAlign: 'right' }}>
-            <button type="submit" style={{ padding: '0.75em 1.5em', fontSize: '1rem' }}>
+            <button 
+              type="submit" 
+              disabled
+              style={{ 
+                padding: '0.75em 1.5em', 
+                fontSize: '1rem',
+                opacity: 0.6,
+                cursor: 'not-allowed',
+                backgroundColor: '#e0e0e0',
+                border: '1px solid #ccc',
+                color: '#666'
+              }}
+            >
               Start Experiment
             </button>
+            <div style={{ 
+              marginTop: '0.5rem', 
+              fontSize: '0.9rem', 
+              color: '#666',
+              textAlign: 'center'
+            }}>
+              This is for public preview. Refer to our{' '}
+              <a 
+                href="http://docs.fedadapt.com.s3-website.us-east-2.amazonaws.com/self_adaptive/"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: '#0066cc', textDecoration: 'underline' }}
+              >
+                documentation
+              </a>
+              {' '}for more information.
+            </div>
           </div>
         </form>
       </section>
