@@ -139,7 +139,7 @@ Your dashboard can chart each client’s α over rounds:
 
 ---
 
-*Read more about the math and implementation in [the research paper](https://arxiv.org/abs/…) or see the code in*
+*Read more about the math and implementation in [the research paper](http://paper.fedadapt.com.s3-website.us-east-2.amazonaws.com/) or see the code in*
 `fedscale/cloud/execution/executor.py → Executor.Train()`
 
 ```

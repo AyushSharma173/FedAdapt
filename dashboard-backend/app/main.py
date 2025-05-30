@@ -37,13 +37,30 @@ app = FastAPI(
     description="Expose client & aggregator state & control for the React dashboard"
 )
 
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=["*"],  # tighten in prod!
+#     allow_credentials=True,
+#     allow_methods=["*"],
+#     allow_headers=["*"],
+# )
+
+# Define your allowed origins
+# It's always best practice to be explicit instead of using "*"
+allowed_origins = [
+    "http://localhost:3000",  # Keep for local development
+    "https://main.d2wox4wfo4yac.amplifyapp.com" # Your actual AWS Amplify frontend URL
+    # Add any other specific frontend URLs if you have multiple environments (e.g., dev, staging)
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # tighten in prod!
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=allowed_origins, # Use the explicit list
+    allow_credentials=True,        # Keep this if your frontend needs to send cookies/auth headers
+    allow_methods=["*"],           # Allows all standard HTTP methods
+    allow_headers=["*"],           # Allows all headers
 )
+
 
 # Can also use Redis or SQLite later
 metrics_history = {} # exp_id -> list of metrics_payload
