@@ -11,13 +11,19 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from fedscale.cloud.config_parser import args as base_args
-import fedscale.cloud.commons as commons
-from fedscale.cloud.aggregation.aggregator import Aggregator
-from fedscale.cloud.execution.executor import Executor
+
+
+
+# from fedscale.cloud.config_parser import args as base_args
+# import fedscale.cloud.commons as commons
+# from fedscale.cloud.aggregation.aggregator import Aggregator
+# from fedscale.cloud.execution.executor import Executor
+# from fedscale.cloud.channels import job_api_pb2, job_api_pb2_grpc
+
+
 
 import grpc
-from fedscale.cloud.channels import job_api_pb2, job_api_pb2_grpc
+
 
 import asyncio, json
 from fastapi.responses import StreamingResponse
@@ -37,29 +43,31 @@ app = FastAPI(
     description="Expose client & aggregator state & control for the React dashboard"
 )
 
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=["*"],  # tighten in prod!
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # tighten in prod!
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 
 # Define your allowed origins
 # It's always best practice to be explicit instead of using "*"
-allowed_origins = [
-    "http://localhost:3000",  # Keep for local development
-    "https://main.d2wox4wfo4yac.amplifyapp.com" # Your actual AWS Amplify frontend URL
-    # Add any other specific frontend URLs if you have multiple environments (e.g., dev, staging)
-]
+# allowed_origins = [
+#     "http://localhost:3000",  # Keep for local development
+#     "https://main.d2wox4wfo4yac.amplifyapp.com" # Your actual AWS Amplify frontend URL
+#     # Add any other specific frontend URLs if you have multiple environments (e.g., dev, staging)
+# ]
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=allowed_origins, # Use the explicit list
-    allow_credentials=True,        # Keep this if your frontend needs to send cookies/auth headers
-    allow_methods=["*"],           # Allows all standard HTTP methods
-    allow_headers=["*"],           # Allows all headers
-)
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=allowed_origins, # Use the explicit list
+#     allow_credentials=True,        # Keep this if your frontend needs to send cookies/auth headers
+#     allow_methods=["*"],           # Allows all standard HTTP methods
+#     allow_headers=["*"],           # Allows all headers
+# )
 
 
 # Can also use Redis or SQLite later
@@ -134,180 +142,180 @@ _experiments: Dict[str, Dict] = {}
 
 # ---- worker spawn functions ----
 
-def _run_aggregator(cfg_overrides: dict):
-    # deep copy the base namespace, then override
-    args = copy.deepcopy(base_args)
-    if args.experiment_mode == "SIMULATION":
-        args.experiment_mode = commons.SIMULATION_MODE
-    for k, v in cfg_overrides.items():
-        setattr(args, k, v)
-    Aggregator(args).run()
+# def _run_aggregator(cfg_overrides: dict):
+#     # deep copy the base namespace, then override
+#     args = copy.deepcopy(base_args)
+#     if args.experiment_mode == "SIMULATION":
+#         args.experiment_mode = commons.SIMULATION_MODE
+#     for k, v in cfg_overrides.items():
+#         setattr(args, k, v)
+#     Aggregator(args).run()
 
 
-def _run_executor(exp_id: str, rank: int, cfg_overrides: dict):
-    args = copy.deepcopy(base_args)
-    args.experiment_mode = commons.SIMULATION_MODE
-    args.this_rank = rank
-    args.num_executors = 1
-    for k, v in cfg_overrides.items():
-        setattr(args, k, v)
-    args.data_map_file
-    print(f"args.data_map_file: {args.data_map_file}")
-    if args.data_map_file == 'none':
-        args.data_map_file = None
-    print(f"args.data_map_file after modification: {args.data_map_file}")
-    Executor(args).run()
+# def _run_executor(exp_id: str, rank: int, cfg_overrides: dict):
+#     args = copy.deepcopy(base_args)
+#     args.experiment_mode = commons.SIMULATION_MODE
+#     args.this_rank = rank
+#     args.num_executors = 1
+#     for k, v in cfg_overrides.items():
+#         setattr(args, k, v)
+#     args.data_map_file
+#     print(f"args.data_map_file: {args.data_map_file}")
+#     if args.data_map_file == 'none':
+#         args.data_map_file = None
+#     print(f"args.data_map_file after modification: {args.data_map_file}")
+#     Executor(args).run()
 
 
-def get_stub():
-    channel = grpc.insecure_channel(
-        "127.0.0.1:50051",
-        options=[
-            ('grpc.max_receive_message_length', 100 * 1024 * 1024),  # 100MB
-            ('grpc.max_send_message_length', 100 * 1024 * 1024),     # 100MB
-            ('grpc.keepalive_time_ms', 30000),                       # 30 seconds
-            ('grpc.keepalive_timeout_ms', 10000),                    # 10 seconds
-            ('grpc.http2.max_pings_without_data', 0),                # Allow pings without data
-            ('grpc.http2.min_time_between_pings_ms', 10000),         # 10 seconds
-            ('grpc.enable_retries', 1),                              # Enable retries
-            ('grpc.service_config', '{"loadBalancingConfig": [{"round_robin":{}}]}'),  # Round-robin load balancing
-        ]
-    )
+# def get_stub():
+#     channel = grpc.insecure_channel(
+#         "127.0.0.1:50051",
+#         options=[
+#             ('grpc.max_receive_message_length', 100 * 1024 * 1024),  # 100MB
+#             ('grpc.max_send_message_length', 100 * 1024 * 1024),     # 100MB
+#             ('grpc.keepalive_time_ms', 30000),                       # 30 seconds
+#             ('grpc.keepalive_timeout_ms', 10000),                    # 10 seconds
+#             ('grpc.http2.max_pings_without_data', 0),                # Allow pings without data
+#             ('grpc.http2.min_time_between_pings_ms', 10000),         # 10 seconds
+#             ('grpc.enable_retries', 1),                              # Enable retries
+#             ('grpc.service_config', '{"loadBalancingConfig": [{"round_robin":{}}]}'),  # Round-robin load balancing
+#         ]
+#     )
     
-    try:
-        # Try to connect with a longer timeout and retry logic
-        for attempt in range(3):  # Try up to 3 times
-            try:
-                grpc.channel_ready_future(channel).result(timeout=30)  # 30 second timeout
-                return job_api_pb2_grpc.JobServiceStub(channel)
-            except grpc.FutureTimeoutError:
-                if attempt == 2:  # Last attempt
-                    logging.error("Failed to connect to aggregator server after 3 attempts")
-                    raise HTTPException(
-                        status_code=503,
-                        detail="Aggregator server is not responding after multiple attempts. Please check if it's running."
-                    )
-                logging.warning(f"Connection attempt {attempt + 1} failed, retrying...")
-                time.sleep(2)  # Wait 2 seconds before retrying
-    except Exception as e:
-        logging.error(f"Failed to connect to aggregator server: {str(e)}")
-        raise HTTPException(
-            status_code=503,
-            detail=f"Failed to connect to aggregator server: {str(e)}"
-        )
+#     try:
+#         # Try to connect with a longer timeout and retry logic
+#         for attempt in range(3):  # Try up to 3 times
+#             try:
+#                 grpc.channel_ready_future(channel).result(timeout=30)  # 30 second timeout
+#                 return job_api_pb2_grpc.JobServiceStub(channel)
+#             except grpc.FutureTimeoutError:
+#                 if attempt == 2:  # Last attempt
+#                     logging.error("Failed to connect to aggregator server after 3 attempts")
+#                     raise HTTPException(
+#                         status_code=503,
+#                         detail="Aggregator server is not responding after multiple attempts. Please check if it's running."
+#                     )
+#                 logging.warning(f"Connection attempt {attempt + 1} failed, retrying...")
+#                 time.sleep(2)  # Wait 2 seconds before retrying
+#     except Exception as e:
+#         logging.error(f"Failed to connect to aggregator server: {str(e)}")
+#         raise HTTPException(
+#             status_code=503,
+#             detail=f"Failed to connect to aggregator server: {str(e)}"
+#         )
 
 # ---- Control logic ----
 import time
 import socket
 
-@app.post("/experiments", response_model=ExperimentStatus)
-async def create_experiment(req: ExperimentStartRequest):
+# @app.post("/experiments", response_model=ExperimentStatus)
+# async def create_experiment(req: ExperimentStartRequest):
 
-    print(f"ExperimentStartRequest: {req}")
-    exp_id = str(uuid.uuid4())
+#     print(f"ExperimentStartRequest: {req}")
+#     exp_id = str(uuid.uuid4())
 
-    # --- all numbers as ints, not strings! ---
-    server_cfg = {
-        "ps_port": 50051,
-        "executor_configs": "127.0.0.1:[{}]".format(req.num_executors),
-        "num_participants": req.num_clients,
-        "num_clients": req.num_clients,
-        "gradient_policy": req.gradient_policy,
-        "experiment_mode": req.experiment_mode,
-        "backend": req.backend,
-        "engine": req.engine,
-        "model_zoo": req.model_zoo,
-        "model": req.model,
-        "data_set": req.data_set,
-        "data_dir": req.data_dir,
-        "input_shape": req.input_shape,
-        "output_dim": req.output_dim,
-        "num_classes": req.num_classes,
-        "embedding_file": req.embedding_file,
-        "rounds": req.rounds,
-        "eval_interval": req.eval_interval,
-        "dump_epoch": req.dump_epoch,
-        "optimize_for": req.optimize_for,
-        "compression_limit": req.compression_limit,
-        "auto_tune": req.auto_tune,
-        "alpha_threshold":  req.alpha_threshold,
-        "alpha_step":       req.alpha_step,
-        "data_map_file":    req.data_map_file,
-        "num_executors":    req.num_executors,
+#     # --- all numbers as ints, not strings! ---
+#     server_cfg = {
+#         "ps_port": 50051,
+#         "executor_configs": "127.0.0.1:[{}]".format(req.num_executors),
+#         "num_participants": req.num_clients,
+#         "num_clients": req.num_clients,
+#         "gradient_policy": req.gradient_policy,
+#         "experiment_mode": req.experiment_mode,
+#         "backend": req.backend,
+#         "engine": req.engine,
+#         "model_zoo": req.model_zoo,
+#         "model": req.model,
+#         "data_set": req.data_set,
+#         "data_dir": req.data_dir,
+#         "input_shape": req.input_shape,
+#         "output_dim": req.output_dim,
+#         "num_classes": req.num_classes,
+#         "embedding_file": req.embedding_file,
+#         "rounds": req.rounds,
+#         "eval_interval": req.eval_interval,
+#         "dump_epoch": req.dump_epoch,
+#         "optimize_for": req.optimize_for,
+#         "compression_limit": req.compression_limit,
+#         "auto_tune": req.auto_tune,
+#         "alpha_threshold":  req.alpha_threshold,
+#         "alpha_step":       req.alpha_step,
+#         "data_map_file":    req.data_map_file,
+#         "num_executors":    req.num_executors,
 
 
-    }
+#     }
 
-    client_cfg = {
-        "ps_ip": "127.0.0.1",
-        "ps_port": 50051,
-        "num_participants": req.num_clients,
-        "num_clients": req.num_clients,
-        "batch_size": req.batch_size,
-        "test_bsz": req.test_bsz,
-        "learning_rate": req.learning_rate,
-        "min_learning_rate": req.min_learning_rate,
-        "decay_factor": req.decay_factor,
-        "decay_round": req.decay_round,
-        "clip_bound": req.clip_bound,
-        "local_steps": req.local_steps,
-        "model_zoo": req.model_zoo,
-        "model": req.model,
-        "data_set": req.data_set,
-        "data_dir": req.data_dir,
-        "input_shape": req.input_shape,
-        "output_dim": req.output_dim,
-        "num_classes": req.num_classes,
-        "embedding_file": req.embedding_file,
-        "backend": req.backend,
-        "engine": req.engine,
-        "optimize_for": req.optimize_for,
-        "compression_limit": req.compression_limit,
-        "auto_tune": req.auto_tune,
-        "alpha_threshold":  req.alpha_threshold,
-        "alpha_step":       req.alpha_step,
-        "data_map_file":    req.data_map_file,
-        "num_executors":    req.num_executors,
+#     client_cfg = {
+#         "ps_ip": "127.0.0.1",
+#         "ps_port": 50051,
+#         "num_participants": req.num_clients,
+#         "num_clients": req.num_clients,
+#         "batch_size": req.batch_size,
+#         "test_bsz": req.test_bsz,
+#         "learning_rate": req.learning_rate,
+#         "min_learning_rate": req.min_learning_rate,
+#         "decay_factor": req.decay_factor,
+#         "decay_round": req.decay_round,
+#         "clip_bound": req.clip_bound,
+#         "local_steps": req.local_steps,
+#         "model_zoo": req.model_zoo,
+#         "model": req.model,
+#         "data_set": req.data_set,
+#         "data_dir": req.data_dir,
+#         "input_shape": req.input_shape,
+#         "output_dim": req.output_dim,
+#         "num_classes": req.num_classes,
+#         "embedding_file": req.embedding_file,
+#         "backend": req.backend,
+#         "engine": req.engine,
+#         "optimize_for": req.optimize_for,
+#         "compression_limit": req.compression_limit,
+#         "auto_tune": req.auto_tune,
+#         "alpha_threshold":  req.alpha_threshold,
+#         "alpha_step":       req.alpha_step,
+#         "data_map_file":    req.data_map_file,
+#         "num_executors":    req.num_executors,
 
-    }
+#     }
 
-    print(f"Number of executors: {req.num_executors}")
+#     print(f"Number of executors: {req.num_executors}")
 
-    procs = []
+#     procs = []
 
-    # 1) start the aggregator
-    p_agg = multiprocessing.Process(
-        target=_run_aggregator, args=(server_cfg, ), daemon=False
-    )
-    p_agg.start()
-    procs.append(p_agg)
+#     # 1) start the aggregator
+#     p_agg = multiprocessing.Process(
+#         target=_run_aggregator, args=(server_cfg, ), daemon=False
+#     )
+#     p_agg.start()
+#     procs.append(p_agg)
 
-    # 2) wait for gRPC to come up
-    for _ in range(20):
-        try:
-            with socket.create_connection(("127.0.0.1", 50051), timeout=1):
-                break
-        except OSError:
-            time.sleep(0.5)
-    else:
-        p_agg.terminate()
-        raise RuntimeError("Aggregator gRPC never came up")
+#     # 2) wait for gRPC to come up
+#     for _ in range(20):
+#         try:
+#             with socket.create_connection(("127.0.0.1", 50051), timeout=1):
+#                 break
+#         except OSError:
+#             time.sleep(0.5)
+#     else:
+#         p_agg.terminate()
+#         raise RuntimeError("Aggregator gRPC never came up")
 
-    # 3) launch *one* executor that simulates all clients
-    p_exec = multiprocessing.Process(
-        target=_run_executor, args=(exp_id, 0, client_cfg), daemon=False
-    )
-    p_exec.start()
-    procs.append(p_exec)
+#     # 3) launch *one* executor that simulates all clients
+#     p_exec = multiprocessing.Process(
+#         target=_run_executor, args=(exp_id, 0, client_cfg), daemon=False
+#     )
+#     p_exec.start()
+#     procs.append(p_exec)
 
-    _experiments[exp_id] = {
-        "id": exp_id,
-        "name": req.name,
-        "num_clients": req.num_clients,
-        "processes": [p.pid for p in procs],
-        "running": True,
-    }
-    return ExperimentStatus(**_experiments[exp_id])
+#     _experiments[exp_id] = {
+#         "id": exp_id,
+#         "name": req.name,
+#         "num_clients": req.num_clients,
+#         "processes": [p.pid for p in procs],
+#         "running": True,
+#     }
+#     return ExperimentStatus(**_experiments[exp_id])
 
 
 
@@ -334,127 +342,127 @@ async def stop_experiment(exp_id: str):
 
 
 
-@app.get("/experiments/{exp_id}/status")
-async def experiment_status(exp_id: str):
-    stub = get_stub()
-    resp = stub.GetAggregatorStatus(job_api_pb2.StatusRequest())
-    return {
-      "round": resp.current_round,
-      "running": resp.is_running,
-      "virtual_clock": resp.global_virtual_clock,
-      "sampled_clients": list(resp.sampled_clients),
-    }
+# @app.get("/experiments/{exp_id}/status")
+# async def experiment_status(exp_id: str):
+#     stub = get_stub()
+#     resp = stub.GetAggregatorStatus(job_api_pb2.StatusRequest())
+#     return {
+#       "round": resp.current_round,
+#       "running": resp.is_running,
+#       "virtual_clock": resp.global_virtual_clock,
+#       "sampled_clients": list(resp.sampled_clients),
+#     }
 
-@app.get("/experiments/{exp_id}/round/{r}/metrics")
-async def round_metrics(exp_id: str, r: int):
-    stub = get_stub()
-    try:
-        resp = stub.GetRoundMetrics(job_api_pb2.MetricsRequest(round=r))
-    except grpc.RpcError as e:
-        if e.code() == grpc.StatusCode.NOT_FOUND:
-            raise HTTPException(404, f"No metrics for round {r}")
-        else:
-            raise HTTPException(500, e.details())
+# @app.get("/experiments/{exp_id}/round/{r}/metrics")
+# async def round_metrics(exp_id: str, r: int):
+#     stub = get_stub()
+#     try:
+#         resp = stub.GetRoundMetrics(job_api_pb2.MetricsRequest(round=r))
+#     except grpc.RpcError as e:
+#         if e.code() == grpc.StatusCode.NOT_FOUND:
+#             raise HTTPException(404, f"No metrics for round {r}")
+#         else:
+#             raise HTTPException(500, e.details())
 
-    return {
-      "round":     resp.round,
-      "test_loss": resp.test_loss,
-      "top1":      resp.test_accuracy1,
-      "top5":      resp.test_accuracy5,
-      "clients": [
-        {
-          "id":       cm.client_id,
-          "loss":     cm.loss,
-          "utility":  cm.utility,
-          "duration": cm.duration,
-          "loss_curve": list(cm.loss_curve),
-          "client_eval_local_acc": cm.client_eval_local_acc,
-          "client_eval_global_acc": cm.client_eval_local_loss,
-          "client_alpha": cm.client_alpha,   
-        }
-        for cm in resp.clients
-      ],
-    }
+#     return {
+#       "round":     resp.round,
+#       "test_loss": resp.test_loss,
+#       "top1":      resp.test_accuracy1,
+#       "top5":      resp.test_accuracy5,
+#       "clients": [
+#         {
+#           "id":       cm.client_id,
+#           "loss":     cm.loss,
+#           "utility":  cm.utility,
+#           "duration": cm.duration,
+#           "loss_curve": list(cm.loss_curve),
+#           "client_eval_local_acc": cm.client_eval_local_acc,
+#           "client_eval_global_acc": cm.client_eval_local_loss,
+#           "client_alpha": cm.client_alpha,   
+#         }
+#         for cm in resp.clients
+#       ],
+#     }
 
 
 
-@app.get("/experiments/{exp_id}/stream")
-async def experiment_stream(exp_id: str):
-    last_round_emitted = 0
-    stub = get_stub()
+# @app.get("/experiments/{exp_id}/stream")
+# async def experiment_stream(exp_id: str):
+#     last_round_emitted = 0
+#     stub = get_stub()
 
-    async def event_generator():
-        nonlocal last_round_emitted
+#     async def event_generator():
+#         nonlocal last_round_emitted
 
-        # === NEW: Send history first ===
-        if exp_id in metrics_history:
-            for cached in metrics_history[exp_id]:
-                yield f"data: {json.dumps(cached)}\n\n"
-                last_round_emitted = cached["round"]  # so we don't reprocess these later
+#         # === NEW: Send history first ===
+#         if exp_id in metrics_history:
+#             for cached in metrics_history[exp_id]:
+#                 yield f"data: {json.dumps(cached)}\n\n"
+#                 last_round_emitted = cached["round"]  # so we don't reprocess these later
 
-        while True:
-            try:
-                status = stub.GetAggregatorStatus(job_api_pb2.StatusRequest())
-            except RpcError:
-                break
+#         while True:
+#             try:
+#                 status = stub.GetAggregatorStatus(job_api_pb2.StatusRequest())
+#             except RpcError:
+#                 break
 
-            status_payload = {
-                "type":            "status",
-                "round":           status.current_round,
-                "running":         status.is_running,
-                "virtual_clock":   status.global_virtual_clock,
-                "sampled_clients": list(status.sampled_clients),
-            }
-            yield f"data: {json.dumps(status_payload)}\n\n"
+#             status_payload = {
+#                 "type":            "status",
+#                 "round":           status.current_round,
+#                 "running":         status.is_running,
+#                 "virtual_clock":   status.global_virtual_clock,
+#                 "sampled_clients": list(status.sampled_clients),
+#             }
+#             yield f"data: {json.dumps(status_payload)}\n\n"
 
-            r = status.current_round
-            if r >= 1 and (r-1) > last_round_emitted:
-                try:
-                    m = stub.GetRoundMetrics(job_api_pb2.MetricsRequest(round=r-1))
-                except RpcError:
-                    pass
-                else:
-                    if len(m.clients) > 0:
-                        last_round_emitted = m.round
+#             r = status.current_round
+#             if r >= 1 and (r-1) > last_round_emitted:
+#                 try:
+#                     m = stub.GetRoundMetrics(job_api_pb2.MetricsRequest(round=r-1))
+#                 except RpcError:
+#                     pass
+#                 else:
+#                     if len(m.clients) > 0:
+#                         last_round_emitted = m.round
 
-                        clients = [
-                            {
-                                "id":         cm.client_id,
-                                "loss":       cm.loss,
-                                "utility":    cm.utility,
-                                "duration":   cm.duration,
-                                "loss_curve": list(cm.loss_curve),
-                                "client_eval_local_acc": cm.client_eval_local_acc,
-                                "client_eval_global_acc": cm.client_eval_global_acc,
-                                "client_alpha": cm.client_alpha, 
-                            }
-                            for cm in m.clients
-                        ]
-                        metrics_payload = {
-                            "type":      "metrics",
-                            "round":     m.round,
-                            "test_loss": m.test_loss,
-                            "top1":      m.test_accuracy1,
-                            "top5":      m.test_accuracy5,
-                            "clients":   clients,
-                        }
+#                         clients = [
+#                             {
+#                                 "id":         cm.client_id,
+#                                 "loss":       cm.loss,
+#                                 "utility":    cm.utility,
+#                                 "duration":   cm.duration,
+#                                 "loss_curve": list(cm.loss_curve),
+#                                 "client_eval_local_acc": cm.client_eval_local_acc,
+#                                 "client_eval_global_acc": cm.client_eval_global_acc,
+#                                 "client_alpha": cm.client_alpha, 
+#                             }
+#                             for cm in m.clients
+#                         ]
+#                         metrics_payload = {
+#                             "type":      "metrics",
+#                             "round":     m.round,
+#                             "test_loss": m.test_loss,
+#                             "top1":      m.test_accuracy1,
+#                             "top5":      m.test_accuracy5,
+#                             "clients":   clients,
+#                         }
 
-                        # Cache it
-                        if exp_id not in metrics_history:
-                            metrics_history[exp_id] = []
+#                         # Cache it
+#                         if exp_id not in metrics_history:
+#                             metrics_history[exp_id] = []
 
-                        rounds_seen = {m["round"] for m in metrics_history[exp_id]}
+#                         rounds_seen = {m["round"] for m in metrics_history[exp_id]}
 
-                        if m.round not in rounds_seen:
-                            metrics_history[exp_id].append(metrics_payload)
+#                         if m.round not in rounds_seen:
+#                             metrics_history[exp_id].append(metrics_payload)
 
-                        yield f"data: {json.dumps(metrics_payload)}\n\n"
+#                         yield f"data: {json.dumps(metrics_payload)}\n\n"
 
-            if not status.is_running:
-                break
-            await asyncio.sleep(1.0)
+#             if not status.is_running:
+#                 break
+#             await asyncio.sleep(1.0)
 
-    return StreamingResponse(event_generator(), media_type="text/event-stream")
+#     return StreamingResponse(event_generator(), media_type="text/event-stream")
 
 
 import os
