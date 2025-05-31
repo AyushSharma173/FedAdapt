@@ -18,7 +18,6 @@
 * **Research Paper (PDF)** → [documentation/docs/assets/paper.pdf](documentation/docs/assets/paper.pdf)
 
 ---
----
 
 ## 🚀 Quick Start
 
