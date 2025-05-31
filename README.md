@@ -1,13 +1,14 @@
 # FedAdapt
 
 [![📖 Documentation](https://img.shields.io/badge/Documentation-FedAdapt-brightgreen?style=for-the-badge&logo=read-the-docs)](http://docs.fedadapt.com.s3-website.us-east-2.amazonaws.com/)
+[![🎮 Live Demo](https://img.shields.io/badge/Live%20Demo-Dashboard-blue?style=for-the-badge&logo=aws)](https://main.d2wox4wfo4y7ac.amplifyapp.com/)
 [![📄 Research Paper](https://img.shields.io/badge/Research%20Paper-PDF-orange?style=for-the-badge&logo=arxiv)](documentation/docs/assets/paper.pdf)
 
 **FedAdapt** builds on [FedScale](https://fedscale.readthedocs.io/en/latest/) to deliver three production-ready extensions for Federated Learning:
 
 - **Live Dashboard** for real-time monitoring and control  
 - **Self-Adaptive Personalization** that dynamically blends local/global models per client  
-- **Heterogeneity-Aware Co-Optimization** to pick each client’s best local-step & compression ratio  
+- **Heterogeneity-Aware Co-Optimization** to pick each client's best local-step & compression ratio  
 
 ---
 
@@ -65,7 +66,7 @@ npm run dev
 
 ### 3. Heterogeneity-Aware Co-Optimization
 
-* Aggregator profiles each client’s compute (t\_comp) & comm (t\_comm)
+* Aggregator profiles each client's compute (t\_comp) & comm (t\_comm)
 * Solves tiny per-client grid search over local‐steps k ∈ {1,…,K} and compression c ∈ {c₁,…,cₘ}
 * Minimizes Tᵢ(k,c) = k·t\_comp + c·B·t\_comm, pushes (k\*,c\*) to each client
 
