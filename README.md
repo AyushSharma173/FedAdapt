@@ -1,7 +1,8 @@
+````markdown
 # FedAdapt
 
-[![📖 Documentation](https://img.shields.io/badge/Documentation-FedAdapt-brightgreen?style=for-the-badge&logo=read-the-docs)](http://docs.fedadapt.com.s3-website.us-east-2.amazonaws.com/)
-[![🎮 Live Demo](https://img.shields.io/badge/Live%20Demo-Dashboard-blue?style=for-the-badge&logo=aws)](https://main.d2wox4wfo4y7ac.amplifyapp.com/)
+[![📖 Documentation](https://img.shields.io/badge/Documentation-FedAdapt-brightgreen?style=for-the-badge&logo=read-the-docs)](http://docs.fedadapt.com.s3-website.us-east-2.amazonaws.com/)  
+[![🎮 Live Demo](https://img.shields.io/badge/Live%20Demo-Dashboard-blue?style=for-the-badge&logo=aws)](https://main.d2wox4wfo4y7ac.amplifyapp.com/)  
 [![📄 Research Paper](https://img.shields.io/badge/Research%20Paper-PDF-orange?style=for-the-badge&logo=arxiv)](documentation/docs/assets/paper.pdf)
 
 **FedAdapt** builds on [FedScale](https://fedscale.readthedocs.io/en/latest/) to deliver three production-ready extensions for Federated Learning:
@@ -14,7 +15,7 @@
 
 ## 🔗 Quick Links
 
-- **FedAdapt Documentation** → http://docs.fedadapt.com.s3-website.us-east-2.amazonaws.com/
+- **FedAdapt Documentation** → http://docs.fedadapt.com.s3-website.us-east-2.amazonaws.com/  
 - **Research Paper (PDF)** → [documentation/docs/assets/paper.pdf](documentation/docs/assets/paper.pdf)  
 
 ---
@@ -22,11 +23,11 @@
 ## 🚀 Quick Start
 
 ```bash
-# 1. Clone FedAdapt (includes all FedScale code + our extensions)
-git clone https://github.com/YourUser/FedAdapt.git
+# 1. Clone FedAdapt (includes FedScale + extensions)
+git clone https://github.com/AyushSharma173/FedAdapt.git
 cd FedAdapt
 
-# 2. Create and activate Python venv
+# 2. Create and activate Python virtualenv
 python3 -m venv .venv
 source .venv/bin/activate
 
@@ -42,7 +43,9 @@ cd ../dashboard-frontend
 npm install
 npm run dev
 
-# 6. Open http://localhost:3000 in your browser
+# 6. Open in browser
+# http://localhost:3000
+````
 
 ---
 
@@ -57,24 +60,32 @@ npm run dev
 ### 2. Self-Adaptive Personalization
 
 * Each client maintains **local** & **global** model copies
-* Computes
 
-  ```
+* Computes:
+
+  ```text
   w_mix = α · w_local + (1–α) · w_global
   ```
+
 * Updates α each round based on hold-out performance (threshold τ, step Δ)
 
 ### 3. Heterogeneity-Aware Co-Optimization
 
 * Aggregator profiles each client's compute (t\_comp) & comm (t\_comm)
-* Solves tiny per-client grid search over local‐steps k ∈ {1,…,K} and compression c ∈ {c₁,…,cₘ}
-* Minimizes Tᵢ(k,c) = k·t\_comp + c·B·t\_comm, pushes (k\*,c\*) to each client
+* Solves per-client grid search over local-steps *k* ∈ {1,…,K} and compression *c* ∈ {c₁,…,cₘ}
+* Minimizes
+
+  ```text
+  Tᵢ(k,c) = k·t_comp + c·B·t_comm
+  ```
+
+  and pushes optimal (k\*, c\*) to each client
 
 ---
 
 ## 🗂 Repository Structure
 
-```
+```text
 FedAdapt/
 ├── README.md
 ├── dashboard-backend/      # FastAPI backend for live metrics & control
@@ -101,12 +112,12 @@ If you use FedAdapt in your research, please cite:
 }
 ```
 
-and, for the underlying platform:
+For the underlying FedScale platform, please cite:
 
 ```bibtex
 @inproceedings{fedscale-icml22,
   title={{FedScale}: Benchmarking Model and System Performance of Federated Learning at Scale},
-  author={Lai, Fan and Dai, Yinwei and Singapuram, Sanjay S. and ...},
+  author={Lai, Fan and Dai, Yinwei and Singapuram, Sanjay S. and \dots},
   booktitle={ICML},
   year={2022}
 }
@@ -116,7 +127,7 @@ and, for the underlying platform:
 
 ## 🤝 Contributing
 
-FedAdapt builds on the [FedScale contributor guidelines](https://github.com/SymbioticLab/FedScale).
+FedAdapt follows the [FedScale contributor guidelines](https://github.com/SymbioticLab/FedScale).
 Feel free to submit issues or pull requests—please include unit tests and follow existing style.
 Join our Slack community or open a GitHub issue if you have questions!
 
