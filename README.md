@@ -18,9 +18,6 @@
 * **Research Paper (PDF)** → [documentation/docs/assets/paper.pdf](documentation/docs/assets/paper.pdf)
 
 ---
-
-*(...rest of the document follows with proper code fences only around the `bash` and `text` blocks as shown previously.)*
-
 ---
 
 ## 🚀 Quick Start
