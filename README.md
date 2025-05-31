@@ -1,22 +1,25 @@
-````markdown
 # FedAdapt
 
-[![📖 Documentation](https://img.shields.io/badge/Documentation-FedAdapt-brightgreen?style=for-the-badge&logo=read-the-docs)](http://docs.fedadapt.com.s3-website.us-east-2.amazonaws.com/)  
-[![🎮 Live Demo](https://img.shields.io/badge/Live%20Demo-Dashboard-blue?style=for-the-badge&logo=aws)](https://main.d2wox4wfo4y7ac.amplifyapp.com/)  
-[![📄 Research Paper](https://img.shields.io/badge/Research%20Paper-PDF-orange?style=for-the-badge&logo=arxiv)](documentation/docs/assets/paper.pdf)
+[![📖 Documentation](https://img.shields.io/badge/Documentation-FedAdapt-brightgreen?style=for-the-badge\&logo=read-the-docs)](http://docs.fedadapt.com.s3-website.us-east-2.amazonaws.com/)
+[![🎮 Live Demo](https://img.shields.io/badge/Live%20Demo-Dashboard-blue?style=for-the-badge\&logo=aws)](https://main.d2wox4wfo4y7ac.amplifyapp.com/)
+[![📄 Research Paper](https://img.shields.io/badge/Research%20Paper-PDF-orange?style=for-the-badge\&logo=arxiv)](documentation/docs/assets/paper.pdf)
 
 **FedAdapt** builds on [FedScale](https://fedscale.readthedocs.io/en/latest/) to deliver three production-ready extensions for Federated Learning:
 
-- **Live Dashboard** for real-time monitoring and control  
-- **Self-Adaptive Personalization** that dynamically blends local/global models per client  
-- **Heterogeneity-Aware Co-Optimization** to pick each client's best local-step & compression ratio  
+* **Live Dashboard** for real-time monitoring and control
+* **Self-Adaptive Personalization** that dynamically blends local/global models per client
+* **Heterogeneity-Aware Co-Optimization** to pick each client's best local-step & compression ratio
 
 ---
 
 ## 🔗 Quick Links
 
-- **FedAdapt Documentation** → http://docs.fedadapt.com.s3-website.us-east-2.amazonaws.com/  
-- **Research Paper (PDF)** → [documentation/docs/assets/paper.pdf](documentation/docs/assets/paper.pdf)  
+* **FedAdapt Documentation** → [http://docs.fedadapt.com.s3-website.us-east-2.amazonaws.com/](http://docs.fedadapt.com.s3-website.us-east-2.amazonaws.com/)
+* **Research Paper (PDF)** → [documentation/docs/assets/paper.pdf](documentation/docs/assets/paper.pdf)
+
+---
+
+*(...rest of the document follows with proper code fences only around the `bash` and `text` blocks as shown previously.)*
 
 ---
 
@@ -107,7 +110,6 @@ If you use FedAdapt in your research, please cite:
 @article{sharma2025_fedadapt,
   title   = {FedAdapt: A Production-Ready Adaptive Federated Learning Framework},
   author  = {Sharma, Ayush},
-  journal = {arXiv preprint arXiv:2501.01234},
   year    = {2025}
 }
 ```
